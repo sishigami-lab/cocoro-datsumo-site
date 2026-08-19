@@ -1182,16 +1182,18 @@ dd {
 }
 
 .staff-photo {
-  display: grid;
-  place-items: center;
-  min-height: 220px;
+  margin: 0;
+  overflow: hidden;
   border-radius: var(--radius);
-  color: var(--color-gold-dark);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.62), rgba(250, 243, 232, 0.9)),
-    url("property-reference.jpg") center / cover;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 38px;
+}
+
+.staff-photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
 }
 
 .staff-role {
