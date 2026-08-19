@@ -65,6 +65,23 @@
       box-shadow: 0 16px 48px rgba(77, 61, 40, 0.08);
     }
 
+    .notice {
+      margin-top: 18px;
+      padding: 16px 20px;
+      border: 1px solid var(--gold);
+      border-left: 5px solid var(--gold);
+      border-radius: 10px;
+      background: #fdf8ef;
+    }
+    .notice h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      color: var(--gold-dark);
+    }
+    .notice p {
+      margin: 0;
+      color: var(--text);
+    }
     .button-row {
       display: flex;
       flex-wrap: wrap;
@@ -114,6 +131,17 @@
   <main>
     <h1>設定画面</h1>
     <p>ホームページでよく使う設定・確認ページをまとめています。難しいファイル名を探さず、ここから開けます。</p>
+
+    <section class="notice">
+      <h2>変更したあとに必ず行うこと</h2>
+      <p>
+        ファイルを上書きしただけでは、公開中のホームページには反映されません。
+        作業後に<strong>「更新マニュアル」の手順7</strong>を行ってください。
+      </p>
+      <div class="button-row">
+        <a class="button" href="update-manual.html">更新マニュアルを開く</a>
+      </div>
+    </section>
 
     <section class="grid" aria-label="設定メニュー">
       <article class="card">

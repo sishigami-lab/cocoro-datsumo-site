@@ -60,6 +60,31 @@
       box-shadow: 0 16px 48px rgba(77, 61, 40, 0.08);
     }
 
+    .notice {
+      margin-top: 18px;
+      padding: 18px 20px;
+      border: 1px solid var(--gold);
+      border-left: 5px solid var(--gold);
+      border-radius: 10px;
+      background: #fdf8ef;
+    }
+    .notice h2 {
+      color: var(--gold-dark);
+    }
+    .notice p,
+    .notice li {
+      color: var(--text);
+    }
+    pre {
+      overflow-x: auto;
+      margin: 12px 0 0;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+      font-size: 14px;
+      line-height: 1.6;
+    }
     .button-row {
       display: flex;
       flex-wrap: wrap;
@@ -99,6 +124,17 @@
   <main>
     <h1>更新マニュアル</h1>
     <p>店舗責任者・オーナー向けのかんたん更新手順です。基本は設定画面から操作します。</p>
+
+    <section class="notice">
+      <h2>はじめにお読みください</h2>
+      <p>
+        ホームページは GitHub で公開されています。<strong>ファイルを上書きしただけでは、公開中のサイトには反映されません。</strong>
+        下記の作業をしたあと、必ず最後の「7. 変更をサイトに反映する」を行ってください。
+      </p>
+      <p>
+        なお編集ページは、公開中のサイト上ではなく<strong>パソコンの中のフォルダにあるファイルを開いて</strong>お使いください。
+      </p>
+    </section>
 
     <section class="card">
       <h2>1. お知らせを追加する</h2>
@@ -165,6 +201,20 @@
         <a class="button" href="https://salon-de-cerm.com/" target="_blank" rel="noopener">系列店を見る</a>
         <a class="button" href="index.html#review" target="_blank" rel="noopener">口コミ欄を見る</a>
       </div>
+    </section>
+
+    <section class="notice">
+      <h2>7. 変更をサイトに反映する</h2>
+      <p>ファイルを上書きしたあと、この作業をして初めて公開中のサイトが更新されます。</p>
+      <ol>
+        <li>「ターミナル」を開く</li>
+        <li>下の3行をコピーして貼り付け、Enter を押す</li>
+        <li>1〜2分待ってから、ホームページを再読み込みして確認する</li>
+      </ol>
+      <pre>cd ~/Documents/Codex/2026-07-22/new-chat/outputs/datsumo-clinic-site
+git add -A
+git commit -m "サイトを更新" &amp;&amp; git push</pre>
+      <p>うまくいかない時は、画面に出ている文章をそのまま制作側へ共有してください。</p>
     </section>
 
     <div class="button-row">
