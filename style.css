@@ -797,6 +797,49 @@ h3 {
   font-size: 22px;
 }
 
+.campaign-feature {
+  background: linear-gradient(180deg, rgba(250, 243, 232, 0.55), rgba(255, 255, 255, 0));
+}
+
+.campaign-hero {
+  position: relative;
+}
+
+.limited-ribbon {
+  position: absolute;
+  z-index: 1;
+  top: 14px;
+  left: 14px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  color: #fff;
+  background: #c8102e;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  box-shadow: 0 8px 20px rgba(200, 16, 46, 0.35);
+  animation: limited-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes limited-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .limited-ribbon { animation: none; }
+}
+
+.campaign-cta {
+  max-width: 780px;
+  margin: 20px auto 0;
+  text-align: center;
+}
+
+.campaign-cta .btn {
+  min-width: min(100%, 340px);
+}
+
 .menu-card-image {
   padding: 0;
   overflow: hidden;
