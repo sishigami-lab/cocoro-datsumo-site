@@ -204,6 +204,10 @@ p {
   margin-top: 0;
 }
 
+.phrase {
+  display: inline-block;
+}
+
 h1 {
   margin-bottom: 22px;
   font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", serif;
@@ -212,6 +216,7 @@ h1 {
   line-height: 1.22;
   text-wrap: balance;
   word-break: normal;
+  word-break: auto-phrase;
   overflow-wrap: break-word;
 }
 
@@ -223,6 +228,7 @@ h2 {
   line-height: 1.28;
   text-wrap: balance;
   word-break: normal;
+  word-break: auto-phrase;
   overflow-wrap: break-word;
 }
 
@@ -232,6 +238,7 @@ h3 {
   line-height: 1.48;
   font-weight: 700;
   word-break: normal;
+  word-break: auto-phrase;
   overflow-wrap: break-word;
 }
 
