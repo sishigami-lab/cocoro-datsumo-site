@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+  <title>かんたんお知らせ編集 | cocoRo脱毛</title>
+  <style>
+    :root {
+      --gold: #ab8443;
+      --gold-dark: #86652d;
+      --text: #2f2a25;
+      --muted: #6e655d;
+      --line: #e7ded1;
+      --soft: #fbf7f1;
+      --white: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      background: var(--soft);
+    }
+
+    main {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(24px, 6vw, 40px);
+      letter-spacing: 0;
+    }
+
+    p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .panel {
+      margin-top: 24px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      box-shadow: 0 18px 50px rgba(77, 61, 40, 0.08);
+    }
+
+    .news-row {
+      display: grid;
+      grid-template-columns: 170px 150px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .news-row:last-child {
+      border-bottom: 0;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 16px;
+      background: #fff;
+    }
+
+    button,
+    .button {
+      min-height: 44px;
+      padding: 10px 16px;
+      border: 1px solid var(--gold);
+      border-radius: 999px;
+      color: var(--gold-dark);
+      font-size: 15px;
+      font-weight: 700;
+      background: #fff;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .primary {
+      color: #fff;
+      background: linear-gradient(135deg, #c9a35c, #8c6427);
+    }
+
+    .danger {
+      border-color: #d9b8ac;
+      color: #a54836;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .note {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-left: 4px solid var(--gold);
+      background: #fff;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 720px) {
+      body {
+        padding: 18px;
+      }
+
+      .news-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>かんたんお知らせ編集</h1>
+    <p>日付はカレンダーで選ぶ、表示は選ぶ、本文は入力するだけです。最後に保存ボタンを押してください。</p>
+
+    <section class="panel" aria-label="お知らせ編集フォーム">
+      <div id="newsRows"></div>
+
+      <div class="actions">
+        <button type="button" id="addButton">1行追加する</button>
+        <button type="button" id="downloadButton" class="primary">保存用ファイルを作る</button>
+        <a class="button" href="index.html" target="_blank" rel="noopener">サイトを確認</a>
+        <a class="button" href="easy-admin.html" target="_blank" rel="noopener">編集ガイドを見る</a>
+      </div>
+    </section>
+
+    <p class="note">
+      保存用ファイルをホームページの同じフォルダに入れると、お知らせ欄に反映されます。スプレッドシートで運用する場合は、普段はこの画面を使わず、シートだけ編集すればOKです。
+    </p>
+  </main>
+
+  <script>
+    const rows = document.getElementById("newsRows");
+    const addButton = document.getElementById("addButton");
+    const downloadButton = document.getElementById("downloadButton");
+
+    const fallbackNews = [
+      { date: "2026.07.22", title: "美容脱毛ページの初期制作版を公開しました。", visible: "TRUE" },
+      { date: "2026.08.01", title: "無料カウンセリング予約の受付準備中です。", visible: "TRUE" },
+      { date: "2026.08.15", title: "美容脱毛メニューの料金表を更新しました。", visible: "TRUE" }
+    ];
+
+    const toInputDate = (date) => {
+      if (!date) return "";
+      return date.replaceAll(".", "-").replaceAll("/", "-");
+    };
+
+    const toDisplayDate = (date) => {
+      if (!date) return "";
+      return date.replaceAll("-", ".");
+    };
+
+    const createRow = (item = { date: "", title: "", visible: "TRUE" }) => {
+      const row = document.createElement("div");
+      row.className = "news-row";
+      row.innerHTML = `
+        <label>
+          日付
+          <input type="date" class="news-date" value="${toInputDate(item.date)}" aria-label="日付" />
+        </label>
+        <label>
+          表示
+          <select class="news-visible" aria-label="表示設定">
+            <option value="TRUE"${item.visible === "FALSE" ? "" : " selected"}>表示する</option>
+            <option value="FALSE"${item.visible === "FALSE" ? " selected" : ""}>非表示にする</option>
+          </select>
+        </label>
+        <label>
+          本文
+          <input type="text" class="news-title" value="${item.title}" placeholder="例：9月限定キャンペーンを開始しました。" aria-label="お知らせ本文" />
+        </label>
+        <button type="button" class="danger">削除</button>
+      `;
+      row.querySelector("button").addEventListener("click", () => row.remove());
+      rows.appendChild(row);
+    };
+
+    const getNews = () => {
+      return [...document.querySelectorAll(".news-row")]
+        .map((row) => ({
+          date: toDisplayDate(row.querySelector(".news-date").value.trim()),
+          title: row.querySelector(".news-title").value.trim(),
+          visible: row.querySelector(".news-visible").value
+        }))
+        .filter((item) => item.date || item.title);
+    };
+
+    const downloadNews = () => {
+      const blob = new Blob([JSON.stringify(getNews(), null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "news.json";
+      link.click();
+      URL.revokeObjectURL(url);
+    };
+
+    fetch("news.json", { cache: "no-store" })
+      .then((response) => response.ok ? response.json() : fallbackNews)
+      .then((items) => (Array.isArray(items) ? items : fallbackNews).forEach(createRow))
+      .catch(() => fallbackNews.forEach(createRow));
+
+    addButton.addEventListener("click", () => createRow());
+    downloadButton.addEventListener("click", downloadNews);
+  </script>
+</body>
+</html>

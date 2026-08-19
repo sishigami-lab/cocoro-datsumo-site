@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /settings.html
+Disallow: /easy-admin.html
+Disallow: /photo-editor.html
+Disallow: /news-editor.html
+Disallow: /link-editor.html
+Disallow: /update-manual.html
+
+Sitemap: https://sishigami-lab.github.io/cocoro-datsumo-site/sitemap.xml

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+  <title>更新マニュアル | cocoRo脱毛</title>
+  <style>
+    :root {
+      --gold: #ab8443;
+      --gold-dark: #86652d;
+      --text: #2f2a25;
+      --muted: #6e655d;
+      --line: #e7ded1;
+      --soft: #fbf7f1;
+      --white: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 18px;
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      background: var(--soft);
+    }
+
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 16px 0 8px;
+      font-size: clamp(28px, 8vw, 46px);
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 22px;
+    }
+
+    p,
+    li {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    .card {
+      margin-top: 18px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--white);
+      box-shadow: 0 16px 48px rgba(77, 61, 40, 0.08);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    a.button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 10px 16px;
+      border: 1px solid var(--gold);
+      border-radius: 999px;
+      color: var(--gold-dark);
+      font-weight: 700;
+      text-decoration: none;
+      background: #fff;
+    }
+
+    a.primary {
+      color: #fff;
+      background: linear-gradient(135deg, #c9a35c, #8c6427);
+    }
+
+    code {
+      padding: 2px 6px;
+      border-radius: 5px;
+      color: var(--gold-dark);
+      background: #f5ecdd;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>更新マニュアル</h1>
+    <p>店舗責任者・オーナー向けのかんたん更新手順です。基本は設定画面から操作します。</p>
+
+    <section class="card">
+      <h2>1. お知らせを追加する</h2>
+      <ol>
+        <li>設定画面を開く</li>
+        <li>「お知らせを編集する」を押す</li>
+        <li>「1行追加する」を押す</li>
+        <li>日付をカレンダーで選ぶ</li>
+        <li>表示を「表示する」にする</li>
+        <li>本文を入力する</li>
+        <li>「保存用ファイルを作る」を押して、<code>news.json</code> を上書きする</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2>2. スプレッドシートでお知らせを更新する</h2>
+      <ol>
+        <li>Googleスプレッドシートを開く</li>
+        <li><code>date</code>、<code>title</code>、<code>visible</code> の3列を使う</li>
+        <li>表示したいお知らせは <code>TRUE</code>、隠したいお知らせは <code>FALSE</code> にする</li>
+        <li>シートを「ウェブに公開」し、CSV URLを <code>news-config.js</code> に入れる</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2>3. LINE・Instagram・電話番号を変える</h2>
+      <ol>
+        <li>設定画面を開く</li>
+        <li>「リンクを変更する」を押す</li>
+        <li>新しいURLや電話番号を入力する</li>
+        <li>「設定ファイルを作る」を押して、<code>site-config.js</code> を上書きする</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2>4. 写真を変える</h2>
+      <ol>
+        <li>設定画面を開く</li>
+        <li>「写真を変更する」を押す</li>
+        <li>変えたい写真を選ぶ</li>
+        <li>新しい写真を選ぶ</li>
+        <li>「この名前で保存」を押して、同じフォルダに上書きする</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2>5. プライバシーポリシーを確認する</h2>
+      <ol>
+        <li>LINE予約で取得する氏名・電話番号・相談内容などの扱いを確認する</li>
+        <li>変更が必要な場合は、制作側へ修正文を共有する</li>
+      </ol>
+      <div class="button-row">
+        <a class="button" href="privacy.html" target="_blank" rel="noopener">プライバシーポリシーを見る</a>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>6. 口コミ・系列店実績を確認する</h2>
+      <ol>
+        <li>系列店「Salon de CERM」の実績・口コミを確認する</li>
+        <li>Googleビジネスプロフィールができたら、地図・口コミ導線を店舗用URLへ差し替える</li>
+      </ol>
+      <div class="button-row">
+        <a class="button" href="https://salon-de-cerm.com/" target="_blank" rel="noopener">系列店を見る</a>
+        <a class="button" href="index.html#review" target="_blank" rel="noopener">口コミ欄を見る</a>
+      </div>
+    </section>
+
+    <div class="button-row">
+      <a class="button primary" href="settings.html">設定画面を開く</a>
+      <a class="button" href="index.html" target="_blank" rel="noopener">ホームページを見る</a>
+    </div>
+  </main>
+</body>
+</html>

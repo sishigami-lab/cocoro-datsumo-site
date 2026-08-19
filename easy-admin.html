@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+  <title>かんたん編集ガイド | cocoRo脱毛</title>
+  <style>
+    :root {
+      --gold: #ab8443;
+      --gold-dark: #86652d;
+      --text: #2f2a25;
+      --muted: #6e655d;
+      --line: #e7ded1;
+      --soft: #fbf7f1;
+      --white: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 18px;
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      background: var(--soft);
+    }
+
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 16px 0 8px;
+      font-size: clamp(28px, 8vw, 48px);
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
+
+    p,
+    li {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    .lead {
+      max-width: 680px;
+      margin-bottom: 24px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--white);
+      box-shadow: 0 16px 48px rgba(77, 61, 40, 0.08);
+    }
+
+    .number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      margin-bottom: 14px;
+      border-radius: 50%;
+      color: #fff;
+      font-weight: 700;
+      background: linear-gradient(135deg, #c9a35c, #8c6427);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    a.button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 10px 16px;
+      border: 1px solid var(--gold);
+      border-radius: 999px;
+      color: var(--gold-dark);
+      font-weight: 700;
+      text-decoration: none;
+      background: #fff;
+    }
+
+    a.text-link {
+      color: var(--gold-dark);
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    a.primary {
+      color: #fff;
+      background: linear-gradient(135deg, #c9a35c, #8c6427);
+    }
+
+    code {
+      padding: 2px 6px;
+      border-radius: 5px;
+      color: var(--gold-dark);
+      background: #f5ecdd;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .simple-table {
+      width: 100%;
+      margin-top: 12px;
+      border-collapse: collapse;
+      font-size: 14px;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    .simple-table th,
+    .simple-table td {
+      padding: 10px;
+      border: 1px solid var(--line);
+      text-align: left;
+    }
+
+    .simple-table th {
+      color: var(--gold-dark);
+      background: #fbf6ed;
+    }
+
+    @media (min-width: 760px) {
+      body {
+        padding: 32px;
+      }
+
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>かんたん編集ガイド</h1>
+    <p class="lead">難しいコードは触らずに、普段の更新だけできるようにするためのページです。基本は「スプレッドシートを編集するだけ」でOKです。</p>
+    <div class="button-row">
+      <a class="button primary" href="settings.html">設定画面を開く</a>
+      <a class="button" href="update-manual.html">更新マニュアルを見る</a>
+      <a class="button" href="index.html" target="_blank" rel="noopener">ホームページを見る</a>
+    </div>
+
+    <section class="grid" aria-label="編集方法">
+      <article class="card">
+        <span class="number">1</span>
+        <h2>お知らせを変える</h2>
+        <p>Googleスプレッドシートの3つの列だけ使います。新しい行を足すと、お知らせも増えます。</p>
+        <table class="simple-table">
+          <thead>
+            <tr><th>date</th><th>title</th><th>visible</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>2026.08.18</td><td>キャンペーンを開始しました。</td><td>TRUE</td></tr>
+          </tbody>
+        </table>
+        <p><code>visible</code> を <code>FALSE</code> にすると、そのお知らせは隠せます。</p>
+        <div class="button-row">
+          <a class="button primary" href="news-sheet-template.csv" download>シート用データを開く</a>
+          <a class="button" href="news-editor.html" target="_blank" rel="noopener">かんたん入力画面</a>
+          <a class="button" href="news-config.js" target="_blank" rel="noopener">シート連携設定を見る</a>
+          <a class="button" href="news.json" target="_blank" rel="noopener">現在のお知らせを見る</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="number">2</span>
+        <h2>写真を変える</h2>
+        <p>写真は同じ名前で差し替えるだけです。サイズは正方形に近い写真がきれいに見えます。</p>
+        <ul>
+          <li>キャンペーン画像：<a class="text-link" href="campaign-open.jpg" target="_blank" rel="noopener">campaign-open.jpg</a></li>
+          <li>ヒゲ写真：<a class="text-link" href="before-after-hige-01.png" target="_blank" rel="noopener">before-after-hige-01.png</a></li>
+          <li>ヒゲ写真：<a class="text-link" href="before-after-hige-02.png" target="_blank" rel="noopener">before-after-hige-02.png</a></li>
+          <li>ヒゲ写真：<a class="text-link" href="before-after-hige-03.png" target="_blank" rel="noopener">before-after-hige-03.png</a></li>
+          <li>うなじ写真：<a class="text-link" href="before-after-unaji-01.png" target="_blank" rel="noopener">before-after-unaji-01.png</a></li>
+          <li>ワキ写真：<a class="text-link" href="before-after-waki-01.png" target="_blank" rel="noopener">before-after-waki-01.png</a></li>
+          <li>ワキ写真：<a class="text-link" href="before-after-waki-02.png" target="_blank" rel="noopener">before-after-waki-02.png</a></li>
+          <li>看板ロゴ：<a class="text-link" href="cocoro-sign-logo.jpg" target="_blank" rel="noopener">cocoro-sign-logo.jpg</a></li>
+          <li>物件参考：<a class="text-link" href="property-reference.jpg" target="_blank" rel="noopener">property-reference.jpg</a></li>
+          <li>カウンセリング写真：<a class="text-link" href="counseling-scene.jpg" target="_blank" rel="noopener">counseling-scene.jpg</a></li>
+        </ul>
+        <div class="button-row">
+          <a class="button primary" href="photo-editor.html" target="_blank" rel="noopener">写真を変更する</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="number">3</span>
+        <h2>LINE・Instagramを変える</h2>
+        <p>リンクを変えたい時は、制作側に新しいURLを送ればOKです。間違えると予約導線が切れるので、ここは無理に触らなくて大丈夫です。</p>
+        <ul>
+          <li>LINE予約：<a class="text-link" href="https://lin.ee/td2mRBRQ" target="_blank" rel="noopener">https://lin.ee/td2mRBRQ</a></li>
+          <li>Instagram：<a class="text-link" href="https://www.instagram.com/cocoro_salon.fuse?igsh=MTVmYmo2bmo4cGd6ag==" target="_blank" rel="noopener">cocoro_salon.fuse</a></li>
+          <li>Googleマップ：<a class="text-link" href="https://maps.app.goo.gl/k2i4qREAfF5n8n3dA?g_st=ic" target="_blank" rel="noopener">Googleマップを開く</a></li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <span class="number">4</span>
+        <h2>公開前に見るところ</h2>
+        <p>スマホでこの4つだけ確認してください。</p>
+        <ul>
+          <li>LINE予約ボタンが押せる</li>
+          <li>Googleマップが開く</li>
+          <li>料金が正しい</li>
+          <li>写真が変に切れていない</li>
+        </ul>
+        <div class="button-row">
+          <a class="button primary" href="index.html" target="_blank" rel="noopener">ホームページを見る</a>
+          <a class="button" href="index.html#plan" target="_blank" rel="noopener">料金を見る</a>
+          <a class="button" href="index.html#before-after" target="_blank" rel="noopener">写真を見る</a>
+          <a class="button" href="index.html#access" target="_blank" rel="noopener">アクセスを見る</a>
+          <a class="button" href="index.html#legal" target="_blank" rel="noopener">注意事項を見る</a>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

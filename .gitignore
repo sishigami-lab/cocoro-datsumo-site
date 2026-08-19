@@ -1,0 +1,19 @@
+# サイト表示に使わない素材（LINEリッチメニュー用）
+line-rich-menu-cocoro.png
+line-rich-menu-cocoro-preview.jpg
+line-rich-menu-parts.zip
+rich-menu-parts/
+
+# 料金表の参考画像（サイトからは未参照）
+price-maintenance-reference.jpg
+price-regular-reference.jpg
+price-student-reference.jpg
+
+# ロゴの元データ（高解像度・サイトからは未参照）
+sign-logo-source.jpg
+
+# index.html と完全に同一の重複ファイル
+mobile.html
+
+# OS 生成ファイル
+.DS_Store
