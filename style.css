@@ -938,11 +938,21 @@ h3 {
 }
 
 .before-card img {
+  display: block;
   width: 100%;
-  aspect-ratio: 1.08 / 1;
+  aspect-ratio: 4 / 3;
   height: auto;
   object-fit: cover;
   transition: transform 0.45s ease;
+}
+
+.before-card figcaption {
+  padding: 12px 14px;
+  color: var(--color-gold-dark);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.04em;
 }
 
 .before-card:hover img {
