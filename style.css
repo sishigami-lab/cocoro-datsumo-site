@@ -188,6 +188,32 @@ iframe {
   max-width: 760px;
 }
 
+.feature-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feature-badges li {
+  padding: 7px 14px;
+  border: 1px solid rgba(183, 154, 97, 0.45);
+  border-radius: 999px;
+  color: var(--color-gold-dark);
+  background: rgba(255, 255, 255, 0.75);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.plan-badges {
+  justify-content: center;
+  max-width: 980px;
+  margin: 0 auto 20px;
+}
+
 .section-label {
   margin: 0 0 12px;
   color: var(--color-gold-dark);
