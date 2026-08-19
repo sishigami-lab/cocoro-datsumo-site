@@ -309,7 +309,7 @@ h3 {
   border-radius: var(--radius);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(250, 243, 232, 0.84)),
-    url("property-reference.jpg") center / cover;
+    url("salon-room.jpg") center / cover;
   background-blend-mode: screen;
   box-shadow: var(--shadow-strong);
 }
