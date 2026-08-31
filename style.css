@@ -1236,6 +1236,30 @@ dd {
   line-height: 1.65;
 }
 
+.access-photo {
+  margin: 0 0 14px;
+  overflow: hidden;
+  border: 1px solid rgba(183, 154, 97, 0.26);
+  border-radius: var(--radius);
+  background: #fff;
+}
+
+.access-photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  height: auto;
+  object-fit: cover;
+}
+
+.access-photo figcaption {
+  padding: 10px 14px;
+  color: var(--color-muted);
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
+
 .map-wrap {
   min-height: 440px;
   overflow: hidden;
