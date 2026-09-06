@@ -1930,7 +1930,8 @@ button,
   bottom: 14px;
   left: 14px;
   z-index: 60;
-  display: block;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   max-width: 430px;
   margin: 0 auto;
   border: 1px solid rgba(180, 133, 54, 0.42);
@@ -1946,13 +1947,21 @@ button,
   justify-content: center;
   width: 100%;
   min-height: 56px;
-  padding: 0 20px;
+  padding: 0 12px;
   color: #fff;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0;
   text-decoration: none;
   background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+}
+
+.mobile-cta a:first-child {
+  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+}
+
+.mobile-cta a.mobile-cta-line {
+  background: linear-gradient(135deg, #06c755, #05a947);
 }
 
 @media (min-width: 768px) {
