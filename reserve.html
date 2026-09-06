@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web予約 | cocoRo脱毛（東大阪・布施の美容脱毛サロン）</title>
+    <meta name="description" content="cocoRo脱毛のWeb予約ページ。空き状況を見ながら24時間いつでもご予約いただけます。無料カウンセリングも受付中。" />
+    <meta name="robots" content="index, follow" />
+    <link rel="stylesheet" href="style.css?v=20260906" />
+    <style>
+      .reserve-page {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 32px 20px 96px;
+      }
+      .reserve-page h1 {
+        font-size: clamp(24px, 4vw, 32px);
+        margin: 8px 0 4px;
+      }
+      .reserve-lead {
+        color: var(--color-muted);
+        font-size: 14px;
+        margin: 0 0 24px;
+      }
+      .step-nav {
+        display: flex;
+        gap: 6px;
+        margin: 0 0 24px;
+        padding: 0;
+        list-style: none;
+        font-size: 12px;
+      }
+      .step-nav li {
+        flex: 1;
+        text-align: center;
+        padding: 8px 4px;
+        border-radius: 999px;
+        background: var(--color-soft);
+        color: var(--color-muted);
+        white-space: nowrap;
+      }
+      .step-nav li.active {
+        background: var(--color-gold);
+        color: #fff;
+        font-weight: 600;
+      }
+      .step-nav li.done { color: var(--color-gold-dark); }
+      .reserve-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-soft);
+        padding: 24px 20px;
+        margin-bottom: 20px;
+      }
+      .reserve-card h2 {
+        font-size: 18px;
+        margin: 0 0 16px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--color-soft);
+      }
+      .menu-option {
+        display: block;
+        border: 1.5px solid var(--color-line);
+        border-radius: var(--radius);
+        padding: 14px 16px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: border-color 0.15s, background 0.15s;
+      }
+      .menu-option:hover { border-color: var(--color-gold); }
+      .menu-option input { margin-right: 10px; accent-color: var(--color-gold-dark); }
+      .menu-option.selected {
+        border-color: var(--color-gold-dark);
+        background: var(--color-soft);
+      }
+      .menu-option .menu-name { font-weight: 600; }
+      .menu-option .menu-price {
+        display: block;
+        font-size: 12.5px;
+        color: var(--color-muted);
+        margin: 4px 0 0 26px;
+      }
+      .cal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .cal-header strong { font-size: 16px; }
+      .cal-nav-btn {
+        border: 1px solid var(--color-line);
+        background: #fff;
+        border-radius: 6px;
+        padding: 6px 14px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .cal-nav-btn:disabled { opacity: 0.35; cursor: default; }
+      .cal-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 4px;
+      }
+      .cal-dow {
+        text-align: center;
+        font-size: 11px;
+        color: var(--color-muted);
+        padding: 4px 0;
+      }
+      .cal-cell {
+        border: 1.5px solid var(--color-line);
+        border-radius: 6px;
+        background: #fff;
+        padding: 6px 2px;
+        text-align: center;
+        cursor: pointer;
+        min-height: 52px;
+        font-family: inherit;
+      }
+      .cal-cell .d { font-size: 14px; font-weight: 600; display: block; }
+      .cal-cell .m { font-size: 13px; display: block; margin-top: 2px; color: var(--color-gold-dark); }
+      .cal-cell:disabled { background: #f4f0e9; color: #b6ada0; cursor: default; }
+      .cal-cell:disabled .m { color: #b6ada0; }
+      .cal-cell.selected {
+        border-color: var(--color-gold-dark);
+        background: var(--color-soft);
+        box-shadow: 0 0 0 1px var(--color-gold-dark);
+      }
+      .cal-cell.empty { border: none; background: none; cursor: default; }
+      .slot-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+        gap: 8px;
+        margin-top: 14px;
+      }
+      .slot-btn {
+        border: 1.5px solid var(--color-line);
+        border-radius: 6px;
+        background: #fff;
+        padding: 10px 4px;
+        cursor: pointer;
+        font-size: 14px;
+        font-family: inherit;
+      }
+      .slot-btn .mk { color: var(--color-gold-dark); font-weight: 700; margin-left: 6px; }
+      .slot-btn:disabled { background: #f4f0e9; color: #b6ada0; cursor: default; }
+      .slot-btn:disabled .mk { color: #b6ada0; }
+      .slot-btn.selected {
+        border-color: var(--color-gold-dark);
+        background: var(--color-soft);
+        box-shadow: 0 0 0 1px var(--color-gold-dark);
+      }
+      .legend {
+        font-size: 12px;
+        color: var(--color-muted);
+        margin: 10px 0 0;
+      }
+      .form-row { margin-bottom: 16px; }
+      .form-row label {
+        display: block;
+        font-size: 13.5px;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      .form-row .req {
+        color: #b0483c;
+        font-size: 11px;
+        border: 1px solid #b0483c;
+        border-radius: 3px;
+        padding: 0 4px;
+        margin-left: 6px;
+        font-weight: 400;
+      }
+      .form-row .opt {
+        color: var(--color-muted);
+        font-size: 11px;
+        border: 1px solid var(--color-line);
+        border-radius: 3px;
+        padding: 0 4px;
+        margin-left: 6px;
+        font-weight: 400;
+      }
+      .form-row input, .form-row textarea {
+        width: 100%;
+        border: 1.5px solid var(--color-line);
+        border-radius: 6px;
+        padding: 11px 12px;
+        font-size: 16px;
+        font-family: inherit;
+        background: #fff;
+      }
+      .form-row input:focus, .form-row textarea:focus {
+        outline: none;
+        border-color: var(--color-gold);
+      }
+      .hp-field { position: absolute; left: -9999px; opacity: 0; height: 0; overflow: hidden; }
+      .confirm-table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+      .confirm-table th, .confirm-table td {
+        text-align: left;
+        padding: 10px 8px;
+        border-bottom: 1px solid var(--color-soft);
+        vertical-align: top;
+      }
+      .confirm-table th { width: 96px; color: var(--color-muted); font-weight: 600; }
+      .action-row {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+      .action-row .btn { flex: 1; text-align: center; min-width: 140px; cursor: pointer; font-family: inherit; font-size: 15px; }
+      button.btn { border: none; }
+      button.btn.btn-outline { border: 1.5px solid var(--color-gold-dark); background: #fff; }
+      .notice-box {
+        background: var(--color-soft);
+        border-radius: var(--radius);
+        padding: 16px;
+        font-size: 13px;
+        color: var(--color-muted);
+        line-height: 1.8;
+      }
+      .error-msg {
+        color: #b0483c;
+        background: #fbeeec;
+        border-radius: 6px;
+        padding: 12px 14px;
+        font-size: 14px;
+        margin-bottom: 14px;
+        display: none;
+      }
+      .error-msg.show { display: block; }
+      .done-mark {
+        text-align: center;
+        font-size: 44px;
+        color: var(--color-gold-dark);
+        margin: 8px 0;
+      }
+      .loading {
+        text-align: center;
+        color: var(--color-muted);
+        padding: 40px 0;
+      }
+      .hidden { display: none !important; }
+      .reserve-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--color-line);
+        background: #fff;
+      }
+      .reserve-header img { height: 40px; display: block; }
+      .reserve-header a.back { font-size: 13px; color: var(--color-gold-dark); }
+      @media (max-width: 480px) {
+        .step-nav { font-size: 10.5px; }
+        .reserve-card { padding: 18px 14px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="reserve-header">
+      <a href="index.html" aria-label="cocoRo Epilation salon トップへ">
+        <img src="cocoro-sign-logo.jpg" alt="cocoRo Epilation salon" />
+      </a>
+      <a class="back" href="index.html">← サイトトップへ</a>
+    </header>
+
+    <main class="reserve-page">
+      <p class="section-label">Online Reservation</p>
+      <h1>Web予約</h1>
+      <p class="reserve-lead">空き状況を見ながら24時間いつでもご予約いただけます。初めての方は「無料カウンセリング」をお選びください。</p>
+
+      <ol class="step-nav" id="stepNav">
+        <li data-step="1" class="active">1. メニュー</li>
+        <li data-step="2">2. 日時</li>
+        <li data-step="3">3. お客様情報</li>
+        <li data-step="4">4. 確認</li>
+      </ol>
+
+      <div class="error-msg" id="errorMsg" role="alert"></div>
+
+      <!-- API未設定時の案内 -->
+      <section class="reserve-card hidden" id="notReady">
+        <h2>Web予約は準備中です</h2>
+        <p style="font-size:14px; line-height:1.9;">現在Web予約システムを準備中です。ご予約は公式LINEまたはお電話にて承っております。</p>
+        <div class="action-row">
+          <a class="btn btn-primary" id="lineBtn" href="https://lin.ee/td2mRBRQ" target="_blank" rel="noopener">LINEで予約する</a>
+          <a class="btn btn-outline" href="tel:07065529193">電話で予約する</a>
+        </div>
+      </section>
+
+      <!-- Step 1: メニュー -->
+      <section class="reserve-card hidden" id="step1">
+        <h2>メニューを選択</h2>
+        <div id="menuList"></div>
+        <div class="action-row">
+          <button class="btn btn-primary" id="toStep2" disabled>日時の選択へ進む</button>
+        </div>
+      </section>
+
+      <!-- Step 2: 日時 -->
+      <section class="reserve-card hidden" id="step2">
+        <h2>ご希望の日時を選択</h2>
+        <div class="loading" id="calLoading">空き状況を読み込んでいます…</div>
+        <div id="calArea" class="hidden">
+          <div class="cal-header">
+            <button class="cal-nav-btn" id="calPrev" type="button">‹ 前週</button>
+            <strong id="calTitle"></strong>
+            <button class="cal-nav-btn" id="calNext" type="button">翌週 ›</button>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+          <p class="legend">◎ 空きあり　○ 残りわずか　× 満枠　休 休業日</p>
+          <div id="slotArea" class="hidden">
+            <h2 style="margin-top:22px;" id="slotTitle"></h2>
+            <div class="slot-grid" id="slotGrid"></div>
+          </div>
+        </div>
+        <div class="action-row">
+          <button class="btn btn-outline" data-back="1">メニューへ戻る</button>
+          <button class="btn btn-primary" id="toStep3" disabled>お客様情報の入力へ</button>
+        </div>
+      </section>
+
+      <!-- Step 3: お客様情報 -->
+      <section class="reserve-card hidden" id="step3">
+        <h2>お客様情報の入力</h2>
+        <div class="form-row">
+          <label for="fName">お名前<span class="req">必須</span></label>
+          <input id="fName" type="text" autocomplete="name" placeholder="例）山田 花子" maxlength="40" />
+        </div>
+        <div class="form-row">
+          <label for="fPhone">電話番号<span class="req">必須</span></label>
+          <input id="fPhone" type="tel" autocomplete="tel" inputmode="tel" placeholder="例）09012345678" maxlength="16" />
+        </div>
+        <div class="form-row">
+          <label for="fEmail">メールアドレス<span class="opt">任意</span></label>
+          <input id="fEmail" type="email" autocomplete="email" inputmode="email" placeholder="例）example@email.com" maxlength="100" />
+          <p class="legend">ご入力いただくと予約確認メールと前日リマインドをお送りします。</p>
+        </div>
+        <div class="form-row">
+          <label for="fNote">ご要望・ご相談<span class="opt">任意</span></label>
+          <textarea id="fNote" rows="3" maxlength="500" placeholder="気になる部位、肌のお悩みなどがあればご記入ください"></textarea>
+        </div>
+        <div class="hp-field" aria-hidden="true">
+          <label>会社名<input id="fCompany" type="text" tabindex="-1" autocomplete="off" /></label>
+        </div>
+        <div class="action-row">
+          <button class="btn btn-outline" data-back="2">日時へ戻る</button>
+          <button class="btn btn-primary" id="toStep4">入力内容の確認へ</button>
+        </div>
+      </section>
+
+      <!-- Step 4: 確認 -->
+      <section class="reserve-card hidden" id="step4">
+        <h2>ご予約内容の確認</h2>
+        <table class="confirm-table">
+          <tr><th>メニュー</th><td id="cMenu"></td></tr>
+          <tr><th>日時</th><td id="cWhen"></td></tr>
+          <tr><th>お名前</th><td id="cName"></td></tr>
+          <tr><th>電話番号</th><td id="cPhone"></td></tr>
+          <tr><th>メール</th><td id="cEmail"></td></tr>
+          <tr><th>ご要望</th><td id="cNote"></td></tr>
+        </table>
+        <p class="legend" style="margin-top:12px;">ご入力いただいた個人情報は予約管理・ご連絡の目的にのみ利用します。<a href="privacy.html" style="text-decoration:underline;">プライバシーポリシー</a></p>
+        <div class="action-row">
+          <button class="btn btn-outline" data-back="3">入力へ戻る</button>
+          <button class="btn btn-primary" id="submitBtn">この内容で予約する</button>
+        </div>
+      </section>
+
+      <!-- 完了 -->
+      <section class="reserve-card hidden" id="stepDone">
+        <div class="done-mark">✓</div>
+        <h2 style="text-align:center; border:none;">ご予約を受け付けました</h2>
+        <table class="confirm-table">
+          <tr><th>予約ID</th><td id="dId"></td></tr>
+          <tr><th>日時</th><td id="dWhen"></td></tr>
+          <tr><th>メニュー</th><td id="dMenu"></td></tr>
+        </table>
+        <div class="notice-box" style="margin-top:16px;">
+          ・前日までに施術部位の自己処理（シェービング）をお願いします。<br />
+          ・ご予約の変更・キャンセルは公式LINEまたはお電話（070-6552-9193）でご連絡ください。
+        </div>
+        <div class="action-row">
+          <a class="btn btn-outline" href="index.html">サイトトップへ</a>
+          <a class="btn btn-primary" id="doneLineBtn" href="https://lin.ee/td2mRBRQ" target="_blank" rel="noopener">LINE友だち登録</a>
+        </div>
+      </section>
+    </main>
+
+    <script src="site-config.js"></script>
+    <script>
+      (function () {
+        "use strict";
+
+        var MENUS = [
+          { name: "無料カウンセリング", price: "0円（約30〜45分）／初めての方はこちら" },
+          { name: "全身脱毛（VIO・全顔込み）", price: "初回15,000円・2回目以降25,000円 ※オープン記念：初回12,500円" },
+          { name: "選べる1部位", price: "初回7,500円・2回目以降9,000円（顔/VIO/両腕/両足/両脇/胴体）" },
+          { name: "選べる2部位", price: "初回10,000円・2回目以降15,000円" },
+          { name: "メンテナンス脱毛", price: "全身15,000円・1部位5,000円・2部位10,000円（女性9回目以降・男性11回目以降）" },
+          { name: "学生・キッズメニュー", price: "小学生 全身5,000円〜。詳しくは料金表をご覧ください" }
+        ];
+        var WEEK = ["日", "月", "火", "水", "木", "金", "土"];
+
+        var params = new URLSearchParams(location.search);
+        var cfg = window.COCORO_SITE_CONFIG || {};
+        var API = params.get("api") || cfg.bookingApiUrl || "";
+        var DEMO = params.get("demo") === "1";
+
+        var state = { menu: null, date: null, hour: null, days: [], weekOffset: 0, name: "", phone: "", email: "", note: "" };
+
+        var $ = function (id) { return document.getElementById(id); };
+        function show(step) {
+          ["step1", "step2", "step3", "step4", "stepDone", "notReady"].forEach(function (s) {
+            $(s).classList.add("hidden");
+          });
+          $(step).classList.remove("hidden");
+          var num = { step1: 1, step2: 2, step3: 3, step4: 4, stepDone: 4 }[step] || 0;
+          document.querySelectorAll("#stepNav li").forEach(function (li) {
+            var n = Number(li.dataset.step);
+            li.classList.toggle("active", n === num);
+            li.classList.toggle("done", n < num);
+          });
+          $("errorMsg").classList.remove("show");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+        function showError(msg) {
+          var el = $("errorMsg");
+          el.textContent = msg;
+          el.classList.add("show");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        /* ---------- Step 1: メニュー ---------- */
+        function renderMenus() {
+          var box = $("menuList");
+          MENUS.forEach(function (m) {
+            var label = document.createElement("label");
+            label.className = "menu-option";
+            var input = document.createElement("input");
+            input.type = "radio";
+            input.name = "menu";
+            input.value = m.name;
+            var nameSpan = document.createElement("span");
+            nameSpan.className = "menu-name";
+            nameSpan.textContent = m.name;
+            var priceSpan = document.createElement("span");
+            priceSpan.className = "menu-price";
+            priceSpan.textContent = m.price;
+            label.appendChild(input);
+            label.appendChild(nameSpan);
+            label.appendChild(priceSpan);
+            input.addEventListener("change", function () {
+              state.menu = m.name;
+              document.querySelectorAll(".menu-option").forEach(function (el) { el.classList.remove("selected"); });
+              label.classList.add("selected");
+              $("toStep2").disabled = false;
+            });
+            box.appendChild(label);
+          });
+        }
+
+        /* ---------- Step 2: 日時 ---------- */
+        function markOf(day) {
+          if (day.closed) return "休";
+          var maxFree = 0;
+          day.slots.forEach(function (s) { if (s.free > maxFree) maxFree = s.free; });
+          return maxFree >= 2 ? "◎" : maxFree === 1 ? "○" : "×";
+        }
+
+        function loadAvailability() {
+          if (DEMO) {
+            state.days = demoDays();
+            $("calLoading").classList.add("hidden");
+            $("calArea").classList.remove("hidden");
+            renderCalendar();
+            return;
+          }
+          fetch(API + "?action=availability")
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+              if (!data.ok) throw new Error("availability error");
+              state.days = data.days;
+              $("calLoading").classList.add("hidden");
+              $("calArea").classList.remove("hidden");
+              renderCalendar();
+            })
+            .catch(function () {
+              $("calLoading").textContent = "空き状況を取得できませんでした。お手数ですがLINEまたはお電話でご予約ください。";
+            });
+        }
+
+        function renderCalendar() {
+          var grid = $("calGrid");
+          grid.innerHTML = "";
+          WEEK.forEach(function (w) {
+            var el = document.createElement("div");
+            el.className = "cal-dow";
+            el.textContent = w;
+            grid.appendChild(el);
+          });
+          if (state.days.length === 0) return;
+
+          var first = parseYmd(state.days[0].date);
+          var visStart = state.weekOffset * 14;
+          var visDays = state.days.slice(visStart, visStart + 14);
+          if (visDays.length === 0) return;
+
+          var lead = parseYmd(visDays[0].date).getDay();
+          for (var i = 0; i < lead; i++) {
+            var pad = document.createElement("div");
+            pad.className = "cal-cell empty";
+            grid.appendChild(pad);
+          }
+          visDays.forEach(function (day) {
+            var d = parseYmd(day.date);
+            var btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "cal-cell";
+            var mark = markOf(day);
+            btn.innerHTML = '<span class="d">' + d.getDate() + '</span><span class="m">' + mark + "</span>";
+            if (mark === "休" || mark === "×") btn.disabled = true;
+            if (state.date === day.date) btn.classList.add("selected");
+            btn.addEventListener("click", function () {
+              state.date = day.date;
+              state.hour = null;
+              $("toStep3").disabled = true;
+              renderCalendar();
+              renderSlots(day);
+            });
+            grid.appendChild(btn);
+          });
+
+          var visEnd = parseYmd(visDays[visDays.length - 1].date);
+          $("calTitle").textContent =
+            (first.getMonth() === visEnd.getMonth()
+              ? visEnd.getFullYear() + "年" + (visEnd.getMonth() + 1) + "月"
+              : parseYmd(visDays[0].date).getMonth() + 1 + "月〜" + (visEnd.getMonth() + 1) + "月");
+          $("calPrev").disabled = state.weekOffset === 0;
+          $("calNext").disabled = visStart + 14 >= state.days.length;
+        }
+
+        function renderSlots(day) {
+          var area = $("slotArea");
+          area.classList.remove("hidden");
+          var d = parseYmd(day.date);
+          $("slotTitle").textContent = (d.getMonth() + 1) + "月" + d.getDate() + "日（" + WEEK[d.getDay()] + "）の時間を選択";
+          var grid = $("slotGrid");
+          grid.innerHTML = "";
+          day.slots.forEach(function (s) {
+            var btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "slot-btn";
+            var mk = s.free >= 2 ? "◎" : s.free === 1 ? "○" : "×";
+            btn.innerHTML = ("0" + s.hour).slice(-2) + ':00<span class="mk">' + mk + "</span>";
+            if (s.free === 0) btn.disabled = true;
+            if (state.hour === s.hour) btn.classList.add("selected");
+            btn.addEventListener("click", function () {
+              state.hour = s.hour;
+              $("toStep3").disabled = false;
+              grid.querySelectorAll(".slot-btn").forEach(function (el) { el.classList.remove("selected"); });
+              btn.classList.add("selected");
+            });
+            grid.appendChild(btn);
+          });
+        }
+
+        /* ---------- Step 3→4: 入力・確認 ---------- */
+        function validateForm() {
+          state.name = $("fName").value.trim();
+          state.phone = $("fPhone").value.replace(/[‐ー−]/g, "-").trim();
+          state.email = $("fEmail").value.trim();
+          state.note = $("fNote").value.trim();
+          if (!state.name) return "お名前をご入力ください。";
+          if (!/^[0-9+\-() ]{10,16}$/.test(state.phone)) return "電話番号をご確認ください（ハイフンなしでも可）。";
+          if (state.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email)) return "メールアドレスの形式をご確認ください。";
+          return null;
+        }
+
+        function whenLabel() {
+          var d = parseYmd(state.date);
+          return (d.getMonth() + 1) + "月" + d.getDate() + "日（" + WEEK[d.getDay()] + "）" +
+            ("0" + state.hour).slice(-2) + ":00〜";
+        }
+
+        function renderConfirm() {
+          $("cMenu").textContent = state.menu;
+          $("cWhen").textContent = whenLabel();
+          $("cName").textContent = state.name + " 様";
+          $("cPhone").textContent = state.phone;
+          $("cEmail").textContent = state.email || "（未入力）";
+          $("cNote").textContent = state.note || "（なし）";
+        }
+
+        function submit() {
+          var btn = $("submitBtn");
+          btn.disabled = true;
+          btn.textContent = "送信中…";
+
+          var payload = {
+            date: state.date, hour: state.hour, menu: state.menu,
+            name: state.name, phone: state.phone, email: state.email,
+            note: state.note, company: $("fCompany").value
+          };
+
+          var done = function (res) {
+            btn.disabled = false;
+            btn.textContent = "この内容で予約する";
+            if (res && res.ok) {
+              $("dId").textContent = res.id;
+              $("dWhen").textContent = whenLabel();
+              $("dMenu").textContent = state.menu;
+              show("stepDone");
+            } else if (res && res.reason === "slot_taken") {
+              showError(res.message || "この枠は埋まってしまいました。別の時間をお選びください。");
+              state.hour = null;
+              $("toStep3").disabled = true;
+              loadAvailability();
+              show("step2");
+            } else {
+              showError((res && res.message) || "送信に失敗しました。お手数ですがLINEまたはお電話でご予約ください。");
+            }
+          };
+
+          if (DEMO) {
+            setTimeout(function () { done({ ok: true, id: "DEMO1234" }); }, 600);
+            return;
+          }
+          fetch(API, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(payload)
+          })
+            .then(function (r) { return r.json(); })
+            .then(done)
+            .catch(function () {
+              done({ ok: false, message: "通信に失敗しました。電波状況をご確認のうえ再度お試しください。" });
+            });
+        }
+
+        /* ---------- util ---------- */
+        function parseYmd(s) {
+          var m = s.split("-");
+          return new Date(Number(m[0]), Number(m[1]) - 1, Number(m[2]));
+        }
+        function demoDays() {
+          var days = [];
+          var today = new Date();
+          for (var i = 0; i < 30; i++) {
+            var d = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
+            var closed = d.getDay() === 3 && i > 0; // デモ: 水曜休み
+            var slots = [];
+            for (var h = 11; h <= 21; h++) {
+              var free = closed ? 0 : (i === 0 && h < 15) ? 0 : Math.floor(Math.abs(Math.sin(i * 31 + h * 7)) * 3);
+              slots.push({ hour: h, free: Math.min(2, free) });
+            }
+            days.push({ date: ymd(d), closed: closed, slots: closed ? [] : slots });
+          }
+          return days;
+        }
+        function ymd(d) {
+          return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+        }
+
+        /* ---------- 初期化 ---------- */
+        if (cfg.lineUrl) {
+          $("lineBtn").href = cfg.lineUrl;
+          $("doneLineBtn").href = cfg.lineUrl;
+        }
+        if (!API && !DEMO) {
+          show("notReady");
+          document.getElementById("stepNav").style.display = "none";
+          return;
+        }
+        renderMenus();
+        show("step1");
+
+        $("toStep2").addEventListener("click", function () {
+          show("step2");
+          if (state.days.length === 0) loadAvailability();
+        });
+        $("toStep3").addEventListener("click", function () { show("step3"); });
+        $("toStep4").addEventListener("click", function () {
+          var err = validateForm();
+          if (err) { showError(err); return; }
+          renderConfirm();
+          show("step4");
+        });
+        $("submitBtn").addEventListener("click", submit);
+        document.querySelectorAll("[data-back]").forEach(function (btn) {
+          btn.addEventListener("click", function () { show("step" + btn.dataset.back); });
+        });
+        $("calPrev").addEventListener("click", function () {
+          state.weekOffset = Math.max(0, state.weekOffset - 1);
+          renderCalendar();
+        });
+        $("calNext").addEventListener("click", function () {
+          state.weekOffset += 1;
+          renderCalendar();
+        });
+      })();
+    </script>
+  </body>
+</html>

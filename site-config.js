@@ -3,5 +3,7 @@ window.COCORO_SITE_CONFIG = {
   lineUrl: "https://lin.ee/td2mRBRQ",
   instagramUrl: "https://www.instagram.com/cocoro_salon.fuse?igsh=MTVmYmo2bmo4cGd6ag==",
   mapUrl: "https://maps.app.goo.gl/k2i4qREAfF5n8n3dA?g_st=ic",
-  phone: "070-6552-9193"
+  phone: "070-6552-9193",
+  // Web予約API（GAS Webアプリの /exec URL）。空の間は reserve.html が「準備中」表示になります。
+  bookingApiUrl: "https://script.google.com/macros/s/AKfycby_mtXw09VE_FYcr8_MpBVHBjhgsx1mI3dJnZaCC0BcVEym-wH7UR0gg1jQ8jFVLXWi/exec"
 };
